@@ -1,32 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <router-view />
+    <vue-Navbar v-if="/(\/home)|(\/information)|(\/mine)/.test(this.$route.fullPath)" />
   </div>
 </template>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import vueNavbar from "./components/public/navbar";
+import jwtDecode from "jwt-decode";
+export default {
+  components: {
+    vueNavbar,
+  },
+  created() {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      const DecodeToken = jwtDecode(token);
+      this.$store.commit("changeUser", DecodeToken);
+      this.$store.commit("changeIsLogin", true);
     }
-  }
-}
-</style>
+  },
+};
+</script>
