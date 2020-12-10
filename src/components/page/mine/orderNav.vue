@@ -1,14 +1,15 @@
 <template>
-  <div class="order">
+  <div class="order-nav">
     <div class="myorder-title">
       <p>我的订单</p>
-      <p>全部订单></p>
+      <p @click="goMyOrder('all')">全部订单></p>
     </div>
     <div class="myorder-menu">
       <div
         class="myorder-menu-item"
         v-for="(item, index) in orderNav"
         :key="index"
+        @click="goMyOrder(index)"
       >
         <i class="iconfont" :class="item.icon"></i>
         <span>{{ item.text }}</span>
@@ -23,7 +24,7 @@ export default {
     return {
       orderNav: [
         {
-          text: "待付款",
+          text: "已付款",
           icon: "icon-daifukuan",
         },
         {
@@ -41,11 +42,16 @@ export default {
       ],
     };
   },
+  methods: {
+    goMyOrder(index) {
+      this.$router.push({ name: "myOrder", params: { status: index } });
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.order {
+.order-nav {
   background-color: #ffffff;
   margin-left: 0.345rem;
   margin-bottom: 0.345rem;

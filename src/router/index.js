@@ -92,6 +92,24 @@ const routes = [{
     name: 'fillOrder',
     component: () => import("../components/page/order/fillOrder.vue"),
   },
+  {
+    path: '/order/myOrder/:status',
+    name: 'myOrder',
+    component: () => import("../components/page/mine/myorders/myOrder.vue"),
+  },
+
+  {
+    path: '/order/myOrderDetail/:id',
+    name: 'myOrderDetail',
+    component: () => import("../components/page/mine/myorders/myOrderDetail.vue"),
+  },
+  {
+    path: '/order/comments/:id',
+    name: 'comments',
+    component: () => import("../components/page/order/comments.vue"),
+  },
+  
+
 ]
 
 
@@ -104,7 +122,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("token");
-  if (to.name == "shippingAddress" || to.name == "addAddress" || to.name == "modifyAddress") {
+  if (to.name == "shippingAddress" || to.name == "addAddress" || to.name == "modifyAddress" || to.name == "fillOrder") {
     if (token) {
       next()
     } else {

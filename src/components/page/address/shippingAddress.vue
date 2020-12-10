@@ -2,6 +2,7 @@
 <template>
   <div class="shipping-address">
     <vue-header
+      class="hipping-address-header"
       name="arrow-left"
       title="收货地址列表"
       :handleClick="handleClick"
@@ -11,6 +12,8 @@
         v-model="chosenAddressId"
         :list="list"
         default-tag-text="默认"
+        switchable
+        class="my-address-list"
         @add="onAdd"
         @edit="onEdit"
       />
@@ -64,12 +67,12 @@ export default {
             item.isDefault = true;
           }
         });
-        console.log(this.list)
+        console.log(this.list);
       }
     },
-    goAddAddress(){
-      this.$router.push({name:"addAddress"})
-    }
+    goAddAddress() {
+      this.$router.push({ name: "addAddress" });
+    },
   },
   mounted() {
     this.getUserAddress();
@@ -82,10 +85,12 @@ export default {
   width: 100%;
   height: 100vh;
   background-color: #fff;
+  .hipping-address-header {
+    position: static;
+  }
   .list {
     width: 100%;
     background-color: #fff;
-    margin-top: 3.125rem;
   }
   .noData {
     width: 100%;
@@ -96,7 +101,7 @@ export default {
     align-items: center;
     .goAdd {
       width: 100%;
-      a{
+      a {
         text-align: center;
         width: 100%;
         height: 2.5rem;
@@ -105,6 +110,11 @@ export default {
         color: #fff;
         background-color: rgb(41, 30, 184);
       }
+    }
+  }
+  .my-address-list {
+    ::v-deep.van-icon-success {
+      display: none !important;
     }
   }
 }

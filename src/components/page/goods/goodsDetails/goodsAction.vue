@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     buy() {
-      console.log(this.carCount);
+      
     },
   },
 };

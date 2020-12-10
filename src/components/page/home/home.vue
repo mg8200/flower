@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- 头部 -->
-    <vue-header :name="headerName" title="Logo" :handleClick="handleClick" />
+    <vue-header :name="headerName" :handleClick="handleClick" />
     <!-- 轮播图 -->
     <vue-swiper />
     <!-- 导航区域 -->
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import vueHeader from "../../public/header";
+import vueHeader from "./header";
 import vueSwiper from "./headerSwiper";
 import vueHomeNav from "./homeNav";
 import vueFastNav from "./fastNav";
@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     handleClick() {
-     this.$router.push({name:"search"})
+      this.$router.push({ name: "search" });
     },
     async getGoodsType() {
       this.GoodsType = await getGoodsType();

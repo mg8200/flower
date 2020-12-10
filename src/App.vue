@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <router-view />
-    <vue-Navbar v-if="/(\/home)|(\/information)|(\/mine)/.test(this.$route.fullPath)" />
+    <vue-Navbar
+      v-if="/(home)|(information)|(mine)/.test(this.$route.name)"
+    />
   </div>
 </template>
 <script>

@@ -2,7 +2,7 @@
 <template>
   <div class="check-address">
     <div class="list">
-      <div class="item">
+      <div class="item" @click="showOtherAddressBox">
         <div class="titel">收货信息:</div>
         <div v-if="defaultAddress.length > 0">
           <div
@@ -19,7 +19,7 @@
                 <span class="address"> {{ item.address }} </span>
               </div>
             </div>
-            <div class="right" @click="showOtherAddressBox">
+            <div class="right">
               <van-icon name="arrow" />
             </div>
           </div>
@@ -114,7 +114,7 @@
           <span>订购人信息</span>
         </div>
         <div class="right">
-          <van-icon name="cross" size="1.875rem" @click="closesubscriberForm" />
+          <van-icon name="cross" size="1.5rem" @click="closesubscriberForm" />
         </div>
       </div>
       <div class="subscriber-content">
@@ -158,11 +158,7 @@
           <span>选择地址</span>
         </div>
         <div class="right">
-          <van-icon
-            name="cross"
-            size="1.875rem"
-            @click="closeOtherAddressBox"
-          />
+          <van-icon name="cross" size="1.5rem" @click="closeOtherAddressBox" />
         </div>
       </div>
       <div
@@ -417,8 +413,16 @@ export default {
         }
       }
       .detlias {
-        background-color: rgb(200, 126, 126);
-        color: rgb(214, 45, 45);
+        -webkit-box-flex: 0;
+        -webkit-flex: none;
+        flex: none;
+        padding: 0 0.3125rem;
+        text-align: center;
+        line-height: 1.4em;
+        color: #fff;
+        font-size: 0.75rem;
+        background-color: #ee0a24;
+        border-radius: 999px;
       }
     }
   }

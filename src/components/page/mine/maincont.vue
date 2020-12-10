@@ -15,7 +15,7 @@
 
 <script>
 import { serverIndex } from "../../../server/serverIndex";
-import vueOrder from "./order";
+import vueOrder from "./orderNav";
 import vuePersonalmenu from "./personalmenu"
 export default {
   components: {

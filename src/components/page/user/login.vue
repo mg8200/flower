@@ -75,7 +75,7 @@ import vueHeader from "../../public/header";
 import { getNav } from "../../../server/information";
 import { login } from "../../../server/user";
 import jwtDecode from "jwt-decode";
-import { Notify,Toast  } from "vant";
+import { Notify, Toast } from "vant";
 export default {
   components: {
     vueHeader,
@@ -124,14 +124,21 @@ export default {
       }
       if (this.flag) {
         const res = await login(this.username, this.password);
-        console.log(res);
         if (res.code == 200) {
           const token = res.token;
           window.localStorage.setItem("token", token);
           const DecodeToken = jwtDecode(token);
           this.$store.commit("changeUser", DecodeToken);
           this.$store.commit("changeIsLogin", true);
-          this.$router.replace({ name: "home" });
+          let self = this;
+          Toast({
+            message: "登录成功",
+            position: "center",
+            type: "success",
+            onClose() {
+              self.$router.push({ name: "home" });
+            },
+          });
         }
       }
     },

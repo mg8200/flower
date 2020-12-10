@@ -11,11 +11,11 @@
           </div>
           <div class="productinfo-topleft-text">
             <p>{{item.name}}</p>
-            <p>x&nbsp;{{item.count}}</p>
+            <p>x&nbsp;{{item.count?item.count:1}}</p>
           </div>
         </div>
         <div class="productinfo-top-right">
-          <p class="price">￥<span>{{ item.count?(item.count*item.price).toFixed(2):(item.price*goods_cound).toFixed(2)}}</span></p>
+          <p class="price">￥<span>{{item.price.toFixed(2)}}</span></p>
         </div>
       </div>
     </div>
