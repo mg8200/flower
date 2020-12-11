@@ -85,7 +85,7 @@ export default {
         real_pay: this.orderData.total,
         pay_time,
         submit_time,
-        status: 1,
+        status: 3,
       };
       let token = localStorage.getItem("token");
       const res = await submitOrders(token, orderObj);

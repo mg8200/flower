@@ -61,23 +61,27 @@ export default {
       }
       const res = await getOrderList(token, status);
       this.orderList = res.data;
+      // 0：已取消:1：:待审核 2：待付款 3 :已付款  4:派送中  5：待评价  6：已完成
       this.orderList.forEach((item) => {
-        if (item.status == -1) {
+        if (item.status == 0) {
           item.status = "已取消";
         }
-        if (item.status == 0) {
-          item.status = "付款";
-        }
         if (item.status == 1) {
-          item.status = "已付款";
+          item.status = "待审核";
         }
         if (item.status == 2) {
-          item.status = "派送中";
+          item.status = "待付款";
         }
         if (item.status == 3) {
-          item.status = "待评价";
+          item.status = "已付款";
         }
         if (item.status == 4) {
+          item.status = "派送中";
+        }
+        if (item.status == 5) {
+          item.status = "待评价";
+        }
+        if (item.status == 6) {
           item.status = "已完成";
         }
         item.goods_details = JSON.parse(item.goods_details);

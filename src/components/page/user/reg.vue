@@ -54,7 +54,7 @@
       <div class="loginform-item">
         <p>用户密码</p>
         <input
-          type="text"
+          type="password"
           v-model="password"
           class="input"
           placeholder="请输入密码"
@@ -63,7 +63,7 @@
       <div class="loginform-item">
         <p>重复密码</p>
         <input
-          type="text"
+          type="password"
           v-model="againPassword"
           class="input"
           placeholder="请再次输入密码"

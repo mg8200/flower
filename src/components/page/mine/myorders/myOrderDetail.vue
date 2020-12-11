@@ -182,34 +182,45 @@
         </div>
       </div>
     </div>
-    <div
-      class="margin-top"
-      :class="orderDetailData.status == 4 ? 'hidden' : ''"
-    ></div>
-    <div class="footer" :class="orderDetailData.status == 4 ? 'hidden' : ''">
+    <div class="margin-top"></div>
+    <div class="footer">
       <div
         class="button"
-        v-if="orderDetailData.status > 0 && orderDetailData.status < 2"
+        v-if="orderDetailData.status > 2 && orderDetailData.status < 4"
         @click="cancelOrder"
       >
         取消订单
       </div>
       <div
         class="button"
-        v-if="orderDetailData.status == -1"
+        v-if="orderDetailData.status == 0"
         @click="addShoppingCar"
       >
         加入购物车
       </div>
-      <div class="button" v-if="orderDetailData.status == 2" @click="sureGoods">
+      <div class="button" v-if="orderDetailData.status == 4" @click="sureGoods">
         确定收货
       </div>
       <div
         class="button"
-        v-if="orderDetailData.status == 3"
+        v-if="orderDetailData.status == 5"
         @click="goComments"
       >
         去评价
+      </div>
+      <div
+        class="button"
+        v-if="orderDetailData.status == 6"
+        @click="addShoppingCar"
+      >
+        再来一单
+      </div>
+      <div
+        class="button"
+        v-if="orderDetailData.status == 1"
+        @click="cancelRefund"
+      >
+        取消申请
       </div>
     </div>
   </div>
@@ -218,7 +229,13 @@
 <script>
 import vueHeader from "../../../public/header";
 import { getNav } from "../../../../server/information";
-import { getOrderDetail, sureGoods, addSales } from "../../../../server/order";
+import {
+  getOrderDetail,
+  sureGoods,
+  addSales,
+  checkPending,
+  cancelRefund,
+} from "../../../../server/order";
 import { getAddressById } from "../../../../server/user";
 import { Dialog, Toast } from "vant";
 export default {
@@ -256,22 +273,25 @@ export default {
         this.orderDetailData.goods_details = JSON.parse(
           this.orderDetailData.goods_details
         );
-        if (this.orderDetailData.status == -1) {
+        if (this.orderDetailData.status == 0) {
           this.orderDetailData.status_text = "已取消";
         }
-        if (this.orderDetailData.status == 0) {
-          this.orderDetailData.status_text = "付款";
-        }
         if (this.orderDetailData.status == 1) {
-          this.orderDetailData.status_text = "已付款";
+          this.orderDetailData.status_text = "待审核";
         }
         if (this.orderDetailData.status == 2) {
-          this.orderDetailData.status_text = "派送中";
+          this.orderDetailData.status_text = "待付款";
         }
         if (this.orderDetailData.status == 3) {
-          this.orderDetailData.status_text = "待评价";
+          this.orderDetailData.status_text = "已付款";
         }
         if (this.orderDetailData.status == 4) {
+          this.orderDetailData.status_text = "派送中";
+        }
+        if (this.orderDetailData.status == 5) {
+          this.orderDetailData.status_text = "待评价";
+        }
+        if (this.orderDetailData.status == 6) {
           this.orderDetailData.status_text = "已完成";
         }
         this.getAddressData();
@@ -283,18 +303,46 @@ export default {
       this.addressData = res.data[0];
     },
     cancelOrder() {
+      let self = this;
+      let token = localStorage.getItem("token");
+      let id = this.orderDetailData.id;
       Dialog.confirm({
         title: "取消订单",
         confirmButtonText: "残忍的确定",
         cancelButtonText: "我再想想",
         message: "亲，您真的要取消订单吗？",
-      }).then(() => {
-        Toast.success("成功");
+      }).then(async () => {
+        const res = await checkPending(id, token);
+        if (res.code == 200) {
+          Toast({
+            message: "提交成功",
+            position: "center",
+            type: "success",
+            onClose() {
+              self.$router.go(0);
+            },
+          });
+        }
       });
+    },
+    async cancelRefund() {
+      let self = this;
+      let token = localStorage.getItem("token");
+      let id = this.orderDetailData.id;
+      const res =await cancelRefund(id, token);
+      if (res.code == 200) {
+        Toast({
+          message: "取消成功",
+          position: "center",
+          type: "success",
+          onClose() {
+            self.$router.go(0);
+          },
+        });
+      }
     },
     addShoppingCar() {
       let goods = JSON.stringify(this.orderDetailData.goods_details);
-      sessionStorage.setItem("orderData");
       this.$store.commit("changeOrderData", goods);
       sessionStorage.setItem("orderData", goods);
       this.$router.push({ name: "fillOrder" });
@@ -455,11 +503,14 @@ export default {
       .goods-item {
         display: flex;
         justify-content: space-between;
+        padding: 11.04px 0;
         .left {
           width: 25%;
         }
         .right {
           width: 75%;
+          box-sizing: border-box;
+          padding-left:0.5rem;
           display: flex;
           flex-wrap: wrap;
           align-items: baseline;
@@ -498,7 +549,7 @@ export default {
     padding: 0.69rem 5%;
     box-sizing: border-box;
     background-color: #fff;
-    margin-bottom: 60px;
+    margin-bottom: 3.75rem;
     .common {
       padding: 0.3125rem 0;
       margin-top: 0;
@@ -520,7 +571,7 @@ export default {
     align-items: center;
     .button {
       height: 1.875rem;
-      width: 70px;
+      width: 5rem;
       text-align: center;
       border-radius: 0.3125rem;
       border: 1px solid #666;

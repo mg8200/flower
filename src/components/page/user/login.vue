@@ -137,7 +137,7 @@ export default {
             position: "center",
             type: "success",
             onClose() {
-              self.$router.push({ name: "home" });
+              self.$router.replace({ name: "home" });
             },
           });
         }

@@ -72,14 +72,36 @@ export async function reviewCompleted(id, token) {
     return res
 }
 
+// 修改订单状态为待审核
+export async function checkPending(id, token) {
+    const {
+        data: res
+    } = await axios.post(`/order/checkPending`, {
+        token: token,
+        id: id
+    })
+    return res
+}
+
 // 确定收货后增加商品售量
-export async function addSales(id, token,count) {
+export async function addSales(id, token, count) {
     const {
         data: res
     } = await axios.post(`/order/addSales`, {
         token: token,
         id: id,
-        count:count
+        count: count
+    })
+    return res
+}
+// 取消退货退款申请
+
+export async function cancelRefund(id, token) {
+    const {
+        data: res
+    } = await axios.post(`/order/cancelRefund`, {
+        token: token,
+        id: id
     })
     return res
 }
