@@ -57,6 +57,7 @@
           type="password"
           v-model="password"
           class="input"
+          @keyup.13="Login"
           placeholder="请输入密码"
         />
       </div>

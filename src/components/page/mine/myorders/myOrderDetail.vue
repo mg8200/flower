@@ -218,7 +218,7 @@
 <script>
 import vueHeader from "../../../public/header";
 import { getNav } from "../../../../server/information";
-import { getOrderDetail, sureGoods } from "../../../../server/order";
+import { getOrderDetail, sureGoods, addSales } from "../../../../server/order";
 import { getAddressById } from "../../../../server/user";
 import { Dialog, Toast } from "vant";
 export default {
@@ -274,13 +274,11 @@ export default {
         if (this.orderDetailData.status == 4) {
           this.orderDetailData.status_text = "已完成";
         }
-        console.log(this.orderDetailData);
         this.getAddressData();
       }
     },
     async getAddressData() {
       let address_id = this.orderDetailData.address_id;
-      console.log(address_id);
       const res = await getAddressById(address_id);
       this.addressData = res.data[0];
     },
@@ -310,6 +308,9 @@ export default {
       }).then(async () => {
         let id = this.orderDetailData.id;
         let token = localStorage.getItem("token");
+        this.orderDetailData.goods_details.goods.forEach(async (item) => {
+          let res = await addSales(item.id, token, item.count);
+        });
         const res = await sureGoods(id, token);
         if (res.code == 200) {
           let self = this;
@@ -328,9 +329,9 @@ export default {
       let id = this.orderDetailData.id;
       this.$router.push({ name: "comments", params: { id: id } });
     },
-    goGoodDetail(id){
-      this.$router.push({name:"goodsDetails",params:{good_id:id}})
-    }
+    goGoodDetail(id) {
+      this.$router.push({ name: "goodsDetails", params: { good_id: id } });
+    },
   },
   mounted() {
     this.getNavData();

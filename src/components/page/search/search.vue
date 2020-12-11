@@ -75,14 +75,12 @@ export default {
       this.goodsData.forEach((item) => {
         item.src = serverIndex + item.src;
       });
-      console.log(this.goodsData);
     },
     async hotworkSearch(keyword) {
       this.goodsData = await getSearchHot(keyword);
       this.goodsData.forEach((item) => {
         item.src = serverIndex + item.src;
       });
-      console.log(this.goodsData);
     },
   },
 };

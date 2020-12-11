@@ -67,7 +67,6 @@ export default {
             item.isDefault = true;
           }
         });
-        console.log(this.list);
       }
     },
     goAddAddress() {

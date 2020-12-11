@@ -6,12 +6,12 @@
       </div>
       <div class="comments-head-body">
         <a>
-          <span> 最近已有{{ evaluateData.length }}条评论 </span>
+          <span @click="goGoodsCommentsDetails"> 最近已有{{ evaluateData.length }}条评论 </span>
           <i class="iconfont icon-xialayou"></i>
         </a>
       </div>
     </div>
-    <div class="comments-listbody" v-if="evaluateData.length>0">
+    <div class="comments-listbody" v-if="evaluateData.length > 0">
       <div
         class="comments-item"
         v-for="(item, index) in evaluateData.slice(0, 2)"
@@ -32,18 +32,16 @@
         </div>
         <div class="comments-item-body">
           <div class="comments-itembody-text">
-            {{ item.text }}
+            {{ item.comments_content }}
           </div>
         </div>
       </div>
     </div>
-    <div class="noevaluae" v-else>
-      暂无评价
-    </div>
-    <div class="morereviews" v-if="evaluateData.length>0">
+    <div class="noevaluae" v-else>暂无评价</div>
+    <div class="morereviews" v-if="evaluateData.length > 0">
       <a>
         <div>
-          <span>查看更多评价</span>
+          <span @click="goGoodsCommentsDetails">查看更多评价</span>
         </div>
       </a>
     </div>
@@ -51,6 +49,7 @@
 </template>
 
 <script>
+import { getComments } from "../../../../server/comments";
 export default {
   props: {
     goodId: {
@@ -59,30 +58,25 @@ export default {
   },
   data() {
     return {
-      evaluateData: [
-        {
-          userImg: "https://www.dinghuale.com/public/images/morenTou.png",
-          username: "爱丽丝",
-          text:
-            "鲜花送到，非常漂亮哦，包装的非常精美，服务非常热情大度，推荐给好友。",
-        },
-        {
-          userImg: "https://www.dinghuale.com/public/images/morenTou.png",
-          username: "anmy",
-          text:
-            "今天是和女友认识3年纪念日，送过女友不少礼物，女友还是最喜欢这家的花。",
-        },
-        {
-          userImg: "https://www.dinghuale.com/public/images/morenTou.png",
-          username: "anmy",
-          text:
-            "今天是和女友认识3年纪念日，送过女友不少礼物，女友还是最喜欢这家的花。",
-        },
-      ],
+      evaluateData: [],
     };
   },
+  methods: {
+    async getComments() {
+      let good_id = this.$route.params.good_id;
+      const res = await getComments(good_id);
+      this.evaluateData = res.data;
+      this.evaluateData.forEach((item) => {
+        item.userImg = "https://www.dinghuale.com/public/images/morenTou.png";
+      });
+    },
+    goGoodsCommentsDetails(){
+      let good_id = this.$route.params.good_id;
+      this.$router.push({name:"goodsCommentsDetails",params:{id:good_id}})
+    }
+  },
   mounted() {
-    
+    this.getComments();
   },
 };
 </script>
@@ -145,9 +139,9 @@ export default {
       }
     }
   }
-  .noevaluae{
+  .noevaluae {
     text-align: center;
-      padding: 3.125rem 1.035rem;
+    padding: 3.125rem 1.035rem;
   }
 }
 </style>

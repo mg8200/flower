@@ -33,7 +33,7 @@ export default {
     }
   },
   mounted(){
-    this.logoSrc=serverIndex+"/img/public/logo.png"
+    this.logoSrc=serverIndex+"/img/common/logo.png"
   }
 };
 </script>

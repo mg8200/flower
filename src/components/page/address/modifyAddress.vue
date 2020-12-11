@@ -89,7 +89,6 @@ export default {
     onChangeDetail(val) {},
     async getareaList() {
       const res = await getAddressById(this.$route.params.id);
-      console.log(res.data[0]);
       this.userInfo = res.data[0];
       this.areaPlaceholder=`${this.userInfo.province}/ ${this.userInfo.city}市 / ${this.userInfo.county}区`
     },

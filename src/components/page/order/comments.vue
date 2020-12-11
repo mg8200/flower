@@ -52,7 +52,11 @@
 <script>
 import { Dialog, Toast } from "vant";
 import vueHeader from "../../public/header";
-import { getOrderDetail, submitComments } from "../../../server/order";
+import {
+  getOrderDetail,
+  submitComments,
+  reviewCompleted,
+} from "../../../server/order";
 export default {
   components: {
     vueHeader,
@@ -65,7 +69,7 @@ export default {
         },
       },
       release_content: "",
-      isRelease: false,
+      isRelease: Boolean,
     };
   },
   methods: {
@@ -79,10 +83,8 @@ export default {
       this.orderDetailData.goods_details = JSON.parse(
         this.orderDetailData.goods_details
       );
-      console.log(this.orderDetailData);
     },
-    release() {
-      console.log(1213)
+    async release() {
       if (this.release_content == "") {
         Dialog({ message: "评论内容不能为空" });
         return;
@@ -92,24 +94,27 @@ export default {
       goodsArr.forEach(async (item) => {
         let id = item.id;
         let res = await submitComments(id, this.release_content, token);
-        console.log(res)
         if (res.code == 200) {
           this.isRelease = true;
         } else if (res.code == 400) {
           this.isRelease = false;
         }
       });
-      console.log(this.isRelease)
       if (this.isRelease) {
         let self = this;
-        Toast({
-          message: "感谢评论",
-          position: "center",
-          type: "success",
-          onClose() {
-            self.$router.push({ name: "home" });
-          },
-        });
+        let id = this.orderDetailData.id;
+        let token = localStorage.getItem("token");
+        const res = await reviewCompleted(id, token);
+        if (res.code == 200) {
+          Toast({
+            message: "感谢评论,订单已完成",
+            position: "center",
+            type: "success",
+            onClose() {
+              self.$router.go(-1);
+            },
+          });
+        }
       }
     },
   },

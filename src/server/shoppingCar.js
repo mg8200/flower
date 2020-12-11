@@ -38,7 +38,6 @@ export async function getCarData(token) {
 // 通过id删除商品
 
 export async function deleteItem(id) {
-    console.log(id)
     const {
         data: res
     } = await axios.post(`/shoppingCar/deleteItem`,{id:id})

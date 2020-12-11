@@ -52,7 +52,6 @@ export default {
       delete obj.postalCode;
       delete obj.country;
       delete obj.areaCode;
-      console.log(obj);
       let token = localStorage.getItem("token");
       const res = await addAddress(token, obj);
       if (res.code == 200) {

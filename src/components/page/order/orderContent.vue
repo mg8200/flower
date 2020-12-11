@@ -241,7 +241,6 @@ export default {
           }
         });
         sessionStorage.setItem("addressId", this.defaultAddress[0].id);
-        console.log(this.defaultAddress);
       }
     },
     showOtherAddressBox() {
@@ -251,7 +250,6 @@ export default {
       this.showOtherAddress = false;
     },
     changeAddress(item) {
-      console.log(item);
       this.defaultAddress[0] = item;
       sessionStorage.setItem("addressId", this.defaultAddress[0].id);
       this.showOtherAddress = false;
@@ -280,7 +278,6 @@ export default {
       this.showDatetimePicker = true;
     },
     datetimeConfirm(value) {
-      console.log(value);
       this.delivery_time = value;
       sessionStorage.setItem("delivery_time", this.delivery_time);
       this.showDatetimePicker = false;

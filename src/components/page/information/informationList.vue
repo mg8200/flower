@@ -8,7 +8,12 @@
       </h3>
     </div>
     <ul class="list">
-      <li class="item" v-for="(item, index) in data" :key="index" @click="goDetail(item.id)">
+      <li
+        class="item"
+        v-for="(item, index) in data"
+        :key="index"
+        @click="goDetail(item.id)"
+      >
         <div class="imgs">
           <img v-lazy="item.title_img" />
         </div>
@@ -18,8 +23,17 @@
             {{ item.title_text }}
           </p>
           <div class="lab_grp">
-            <span class="tag" v-show="item.tag_name !=''"> {{ item.tag_name }} </span>
-            <span class="viewed" :style="item.tag_name==''?{ paddingLeft:'0'}:{paddingLeft:'0.9375rem'}">
+            <span class="tag" v-show="item.tag_name != ''">
+              {{ item.tag_name }}
+            </span>
+            <span
+              class="viewed"
+              :style="
+                item.tag_name == ''
+                  ? { paddingLeft: '0' }
+                  : { paddingLeft: '0.9375rem' }
+              "
+            >
               <span class="icon"></span>
               <span class="count">{{ item.viewed_count }}</span>
             </span>
@@ -35,7 +49,7 @@
 
 <script>
 import { serverIndex } from "../../../server/serverIndex";
-import { getArticleList } from "../../../server/information";
+import { getArticleList, addReading } from "../../../server/information";
 export default {
   data() {
     return {
@@ -47,13 +61,14 @@ export default {
     async getArticleLists() {
       let catid = this.$route.params.catid;
       this.data = await getArticleList(catid);
-      this.data.forEach(item=>{
-        item.title_img=serverIndex+item.title_img
-      })
+      this.data.forEach((item) => {
+        item.title_img = serverIndex + item.title_img;
+      });
     },
-    goDetail(id){
-      this.$router.push({name:"informationDetail",params:{infoId:id}})
-    }
+    async goDetail(id) {
+      const res = await addReading(id);
+      this.$router.push({ name: "informationDetail", params: { infoId: id } });
+    },
   },
   created() {
     this.getArticleLists();

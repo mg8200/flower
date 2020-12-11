@@ -6,7 +6,6 @@ axios.defaults.baseURL = serverIndex;
 
 // 登录
 export async function login(username, password) {
-    console.log(username, password)
     const {
         data: res
     } = await axios.post(`/user/login`, {
@@ -26,6 +25,17 @@ export async function reg(username, password) {
     })
     return res
 }
+export async function changePassWrod(token, password) {
+    const {
+        data: res
+    } = await axios.post(`/user/changePassWrod`, {
+        token,
+        password
+    })
+    return res
+}
+
+
 
 // 获取用户的地址列表
 export async function getAddress(token) {

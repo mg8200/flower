@@ -28,9 +28,6 @@ export default {
     onChange(index) {
     //   console.log(index);
     },
-    handleClick() {
-      
-    },
     async getNavs() {
       const res = await getNav();
       this.navData = res;

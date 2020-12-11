@@ -17,7 +17,6 @@ export default {
   methods: {
     handleClick() {
       this.$router.push({ name: "search" });
-      console.log(111)
     },
   },
 };

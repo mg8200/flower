@@ -42,6 +42,9 @@ export default {
       if (index == 1) {
         this.$router.push({ name: "shippingAddress" });
       }
+      if (index == 2) {
+        this.$router.push({ name: "config" });
+      }
     },
   },
 };

@@ -33,15 +33,12 @@ export default {
     },
     async getArticleitems() {
       let id = this.$route.params.infoId;
-      console.log(id);
       this.data = await getArticleitem(id);
       this.data.title_img = serverIndex + this.data.title_img;
-      console.log(this.data);
     },
   },
   mounted() {
     this.getArticleitems();
-    console.log(this.$route.query.infoId);
   },
 };
 </script>

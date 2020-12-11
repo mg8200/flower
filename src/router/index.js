@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+	if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+	return originalPush.call(this, location).catch(err => err)
+}
 Vue.use(VueRouter)
 
 const routes = [{
@@ -109,20 +115,34 @@ const routes = [{
     component: () => import("../components/page/order/comments.vue"),
   },
   
+  {
+    path: '/goodsCommentsDetails/:id',
+    name: 'goodsCommentsDetails',
+    component: () => import("../components/page/goods/goodsDetails/goodsCommentsDetails.vue"),
+  },
+
+  {
+    path: '/config',
+    name: 'config',
+    component: () => import("../components/page/config/config.vue"),
+  },
+  {
+    path: "/user/changePassword",
+    name: "changePassword",
+    component: () => import("../components/page/user/changePassword.vue"),
+  },
 
 ]
 
-
-
 const router = new VueRouter({
-  // mode: 'history',
+  //  mode: 'history',
   // base: process.env.BASE_URL,
   routes
 })
 
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("token");
-  if (to.name == "shippingAddress" || to.name == "addAddress" || to.name == "modifyAddress" || to.name == "fillOrder") {
+  if (to.name == "shippingAddress" || to.name == "addAddress" || to.name == "modifyAddress" || to.name == "fillOrder"|| to.name =="myOrder"|| to.name =="myOrderDetail"|| to.name =="comments"|| to.name =="config"|| to.name =="changePassword" ) {
     if (token) {
       next()
     } else {

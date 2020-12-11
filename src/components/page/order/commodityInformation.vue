@@ -28,7 +28,6 @@ export default {
   mounted() {
     let orderData = sessionStorage.getItem("orderData");
     this.orderData = JSON.parse(orderData);
-    console.log(this.orderData)
   },
 };
 </script>

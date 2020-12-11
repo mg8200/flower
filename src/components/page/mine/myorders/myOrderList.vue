@@ -82,7 +82,6 @@ export default {
         }
         item.goods_details = JSON.parse(item.goods_details);
       });
-      console.log(this.orderList);
     },
     goOrderDetail(id) {
       this.$router.push({ name: "myOrderDetail", params: { id } });

@@ -1,7 +1,7 @@
 <template>
   <div class="maincont" :style="{ backgroundImage: `url(${bg})` }">
     <div class="login">
-      <p>你好！{{$store.state.user.username}}欢迎来到本店</p>
+      <p>你好！<span v-show="$store.state.isLogin">{{$store.state.user.username}}</span> 欢迎来到本店</p>
       <div class="maincont-login-but margin-top-small" v-show="!$store.state.isLogin">
         <a @click="goLogin">登录/注册</a>
       </div>

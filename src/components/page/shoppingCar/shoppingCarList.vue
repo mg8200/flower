@@ -65,7 +65,7 @@ export default {
       cardata: [],
       checked: false,
       total: 0,
-      carImg: "/img/public/nocar.png",
+      carImg: "/img/common/nocar.png",
     };
   },
   methods: {
@@ -104,7 +104,6 @@ export default {
         .then(async () => {
           // on confirm
           const res = await this.deleteItem(id);
-          console.log(res);
           if (res.code == 200) {
             this.getCarDatas();
           }
@@ -129,7 +128,6 @@ export default {
           order.goods.push(item);
         }
       });
-      console.log(order);
       if (order.total == 0) {
         Toast.fail("亲，请勾选商品");
       }else{

@@ -87,10 +87,8 @@ export default {
         submit_time,
         status: 1,
       };
-      console.log(orderObj);
       let token = localStorage.getItem("token");
       const res = await submitOrders(token, orderObj);
-      console.log(res);
       if (res.code == 200) {
         this.orderData.goods.forEach((item) => {
           deleteItem(item.id);
@@ -111,7 +109,6 @@ export default {
   mounted() {
     let orderData = sessionStorage.getItem("orderData");
     this.orderData = JSON.parse(orderData);
-    console.log(this.orderData);
   },
 };
 </script>

@@ -20,4 +20,13 @@ export async function getArticleitem(id){
    return res.data
 }
 
+// 点击添加阅读次数
+
+
+
+export async function addReading(id){
+   const {data:res} =await axios.get(`/information/addReading/${id}`)
+   return res
+}
+
 

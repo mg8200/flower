@@ -139,9 +139,7 @@ export default {
         Notify({ type: "danger", message: this.errObj.againPassword });
       }
       if (this.flag) {
-        console.log(this.username, this.password);
         const res = await reg(this.username, this.password);
-        console.log(res);
         let self = this;
         if (res.code == 200) {
           this.$store.commit("changeUser", this.username);
@@ -155,7 +153,13 @@ export default {
           });
         }
         if (res.code == 400) {
-          console.log(res.msg);
+          Toast({
+            message: "注册失败，用户名重复",
+            position: "center",
+            type: "fail",
+            onClose() {
+            },
+          });
         }
       }
     },
