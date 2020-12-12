@@ -55,9 +55,9 @@ export default {
   methods: {
     async getOrderList() {
       const token = localStorage.getItem("token");
-      let status = this.$route.params.status + 1;
-      if (status == "all1") {
-        status = status.replace("1", "");
+      let status = this.$route.params.status + 3;
+      if (status == "all3") {
+        status = status.replace("3", "");
       }
       const res = await getOrderList(token, status);
       this.orderList = res.data;
