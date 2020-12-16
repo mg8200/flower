@@ -1,7 +1,6 @@
 import axios from "axios"
 import {serverIndex} from "./serverIndex"
-axios.defaults.baseURL=serverIndex;
-
+axios.defaults.baseURL = serverIndex;
 // 获取导航栏
 export async function getNav(){
    const {data:res} =await axios.get("/information/getNav")

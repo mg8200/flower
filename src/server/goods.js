@@ -3,7 +3,6 @@ import {
    serverIndex
 } from "./serverIndex"
 axios.defaults.baseURL = serverIndex;
-
 // 获取详情数据
 export async function getGoodsTypeName(good_type) {
    const {

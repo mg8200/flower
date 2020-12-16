@@ -4,7 +4,6 @@ import {
 } from "./serverIndex"
 axios.defaults.baseURL = serverIndex;
 
-
 // 提交订单
 export async function submitOrders(token, obj) {
     const {
@@ -34,8 +33,6 @@ export async function getOrderDetail(id) {
     } = await axios.get(`/order/getOrderDetail/${id}`)
     return res
 }
-
-
 
 // 确定收货
 export async function sureGoods(id, token) {

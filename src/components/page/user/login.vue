@@ -140,6 +140,15 @@ export default {
               self.$router.replace({ name: "home" });
             },
           });
+        } else if (res.code == 400) {
+          let self = this;
+          Toast({
+            message: `登录失败${res.msg}`,
+            position: "center",
+            type: "fail",
+          });
+          this.username = "";
+          this.password = "";
         }
       }
     },

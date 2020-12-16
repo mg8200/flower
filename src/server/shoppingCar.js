@@ -4,7 +4,6 @@ import {
 } from "./serverIndex"
 axios.defaults.baseURL = serverIndex;
 
-
 // 将商品加入购物车
 export async function joinCar(token, goods_id, price, count) {
     const {
