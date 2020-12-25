@@ -189,6 +189,7 @@ export default {
             position: "center",
             type: "success",
           });
+          this.getCarCounts()
         }
       } else {
         this.$router.push({ name: "login" });
