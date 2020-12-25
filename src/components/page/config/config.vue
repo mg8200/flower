@@ -23,11 +23,11 @@
             <span>修改</span>
           </span>
         </div>
-        <div class="common">
+        <div class="common" @click="goSetSuperPassword">
           <span class="lable"> 安全密码 </span>
           <span class="text">
             <span>{{
-              $store.state.user.superPassword !== "000000" ? "已设置" : "未设置"
+              $store.state.user.superPassword !== "000000" ? "去修改" : "前往设置"
             }}</span>
           </span>
         </div>
@@ -81,6 +81,9 @@ export default {
     handleClick() {
       this.$router.go(-1);
     },
+    goSetSuperPassword(){
+      this.$router.replace({name:"setSuperPassword"})
+    }
   },
 };
 </script>

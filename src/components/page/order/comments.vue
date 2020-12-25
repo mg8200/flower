@@ -13,7 +13,7 @@
           :key="item.id"
         >
           <div class="left">
-            <img :src="item.src" alt="" />
+            <img :src="serverIndex+item.src" alt="" />
           </div>
           <div class="right">
             <div class="right-top">
@@ -57,6 +57,7 @@ import {
   submitComments,
   reviewCompleted,
 } from "../../../server/order";
+import {serverIndex} from "../../../server/serverIndex"
 export default {
   components: {
     vueHeader,
@@ -70,6 +71,7 @@ export default {
       },
       release_content: "",
       isRelease: Boolean,
+      serverIndex:""
     };
   },
   methods: {
@@ -120,6 +122,7 @@ export default {
   },
   mounted() {
     this.getOrderDetailData();
+    this.serverIndex=serverIndex
   },
 };
 </script>

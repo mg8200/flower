@@ -1,7 +1,7 @@
 <template>
   <div class="changePassword">
     <div class="heade">
-       <vue-header
+      <vue-header
         name="arrow-left"
         title="个人中心"
         :handleClick="handleClick"
@@ -61,8 +61,8 @@
 
 <script>
 import { Toast } from "vant";
-import vueHeader from "../../public/header"
-import {changePassWrod} from "../../../server/user"
+import vueHeader from "../../public/header";
+import { changePassWrod } from "../../../server/user";
 export default {
   components: {
     vueHeader,
@@ -80,8 +80,8 @@ export default {
     };
   },
   methods: {
-    handleClick(){
-      this.$router.go(-1)
+    handleClick() {
+      this.$router.go(-1);
     },
     showKeyboards() {
       this.showKeyboard = false;
@@ -116,7 +116,7 @@ export default {
     },
     async changePassword() {
       let token = localStorage.getItem("token");
-      const res = await changePassWrod(token,this.password)
+      const res = await changePassWrod(token, this.password);
       let self = this;
       if (res.code == 200) {
         Toast({
@@ -132,14 +132,11 @@ export default {
   },
   watch: {
     value(value) {
-      
       if (
         value.length === 6 &&
         value !== this.$store.state.user.superPassword
       ) {
-        console.log(this.$store.state.user)
         this.errorInfo = "密码错误";
-
       } else if (value == this.$store.state.user.superPassword) {
         let self = this;
         Toast({
@@ -175,7 +172,7 @@ export default {
     box-sizing: border-box;
     padding-top: 60%;
   }
-    .heade {
+  .heade {
     background-color: #fff;
     display: flex;
     height: 2.75rem;

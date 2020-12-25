@@ -16,7 +16,12 @@
       </vue-header>
     </div>
     <div class="swiper">
-      <van-swipe :autoplay="3000">
+      <van-swipe
+        :autoplay="3000"
+        width="100%"
+        height="23.4375rem;"
+        class="my-vant-swiper"
+      >
         <van-swipe-item v-for="(image, index) in swiperData" :key="index">
           <img v-lazy="image" />
         </van-swipe-item>
@@ -109,7 +114,7 @@ import vueGoodsAction from "./goodsAction";
 import vueRenderGoodsDetails from "./renderGoodsDetails";
 import vueEvaluate from "./goodEvaluate";
 import vueProductDetail from "./productDetail";
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 export default {
   components: {
     vueHeader,
@@ -170,7 +175,21 @@ export default {
       if (token) {
         if (count == 0) return;
         const res = await joinCar(token, id, price, count);
-        this.getCarCounts();
+        let slef = this;
+        if (res.code == 201) {
+          Dialog.alert({
+            message: "购物车商品数量增加",
+          }).then(() => {
+            slef.getCarCounts();
+          });
+        }
+        if (res.code == 200) {
+          Toast({
+            message: "加入购物车成功",
+            position: "center",
+            type: "success",
+          });
+        }
       } else {
         this.$router.push({ name: "login" });
       }
@@ -189,7 +208,7 @@ export default {
       order.goods.push(this.goodData);
       order.goods.forEach((item) => {
         order.total = order.goods_count * item.price;
-        item.src=serverIndex+item.src
+        item.src = serverIndex + item.src;
       });
       if (order.goods_count == 0) {
         Toast.fail("亲，最小商品数量为0！");
@@ -307,6 +326,19 @@ export default {
           text-align: center;
         }
       }
+    }
+  }
+  .swiper {
+    margin-top: 3.125rem;
+    width: 100%;
+    height: 23.4375rem;
+    .my-vant-swiper {
+      width: 100%;
+      height: 23.4375rem;
+    }
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }

@@ -12,6 +12,7 @@
 import { Dialog, Toast } from "vant";
 import { submitOrders } from "../../../server/order";
 import { deleteItem } from "../../../server/shoppingCar";
+import { serverIndex } from '../../../server/serverIndex';
 export default {
   data() {
     return {
@@ -69,9 +70,10 @@ export default {
         });
         return;
       }
-      let tiem = new Date().toLocaleString();
-      let pay_time = tiem;
-      let submit_time = tiem;
+      let address_detail=sessionStorage.getItem("address_detail")
+      let time = new Date().toLocaleString();
+      let pay_time = time;
+      let submit_time = time;
       let orderObj = {
         address_id: +addressId,
         pay_methods: +payMethods,
@@ -83,11 +85,13 @@ export default {
         subscriber_name: subscriberName,
         subscriber_tel: subscriberTel,
         real_pay: this.orderData.total,
+        address_detail,
         pay_time,
         submit_time,
         status: 3,
       };
       let token = localStorage.getItem("token");
+      orderObj.goods_details=orderObj.goods_details.replace(serverIndex,'')
       const res = await submitOrders(token, orderObj);
       if (res.code == 200) {
         this.orderData.goods.forEach((item) => {
@@ -95,12 +99,12 @@ export default {
         });
         let self = this;
         Toast({
-          message: "提交成功",
+          message: "正在提交",
           position: "center",
-          type: "success",
+          type: "loading",
           onClose() {
             sessionStorage.removeItem("orderData");
-            self.$router.push({ name: "home" });
+            self.$router.push({ name: "successfullySubmitOrder" });
           },
         });
       }

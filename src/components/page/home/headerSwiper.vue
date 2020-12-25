@@ -1,8 +1,13 @@
 <template>
   <div class="swiper">
-    <van-swipe :autoplay="3000" width="100%">
+    <van-swipe
+      :autoplay="3000"
+      width="100%"
+      height="11.875rem"
+      class="my-vant-swiper"
+    >
       <van-swipe-item v-for="(image, index) in bannerData" :key="index">
-        <img  v-lazy="image.src" />
+        <img v-lazy="image.src" />
       </van-swipe-item>
     </van-swipe>
   </div>
@@ -36,7 +41,11 @@ export default {
 .swiper {
   margin-top: 3.125rem;
   width: 100%;
-
+  height: 11.875rem;
+  .my-vant-swiper {
+    width: 100%;
+    height: 11.875rem;
+  }
   img {
     width: 100%;
     height: 100%;

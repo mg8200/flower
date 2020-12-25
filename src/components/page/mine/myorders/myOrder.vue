@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$router.go(-1);
+      this.$router.push({name:"mine"});
     },
     getTitle() {
       let status = this.$route.params.status;

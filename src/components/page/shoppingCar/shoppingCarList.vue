@@ -1,7 +1,11 @@
 <template>
   <div class="shopping-car-list">
     <div v-if="cardata.length > 0" class="car">
-      <div class="shopping-car-item" v-for="item in cardata" :key="item.id">
+      <div
+        class="shopping-car-item"
+        v-for="(item, index) in cardata"
+        :key="item.id"
+      >
         <div class="checkbox">
           <input
             type="checkbox"
@@ -20,13 +24,22 @@
             :origin-price="item.original_price"
           />
           <template #right>
-            <van-button
-              square
-              text="删除"
-              type="danger"
-              class="delete-button"
-              @click="showDelete(item.id)"
-            />
+            <div class="card-right">
+              <van-button
+                square
+                text="删除"
+                type="danger"
+                class="delete-button"
+                @click="showDelete(item.id)"
+              />
+              <van-button
+                square
+                text="修改数量"
+                type="info"
+                class="delete-button"
+                @click="showChangeCount(item, index)"
+              />
+            </div>
           </template>
         </van-swipe-cell>
       </div>
@@ -52,12 +65,30 @@
         <span class="checkall-span">全选</span>
       </div>
     </van-submit-bar>
+
+    <van-dialog
+      v-model="changeCount"
+      title="修改数量"
+      class="changeCount-box"
+      show-cancel-button
+      @confirm="submitCount"
+    >
+      <div>
+        <ul class="showChangeCount-ul">
+          <li class="jia" @click="add">+</li>
+          <li>
+            <input type="text" v-model="count" />
+          </li>
+          <li class="jia jian" @click="less">-</li>
+        </ul>
+      </div>
+    </van-dialog>
   </div>
 </template>
 
 <script>
 import { serverIndex } from "../../../server/serverIndex";
-import { getCarData, deleteItem } from "../../../server/shoppingCar";
+import { getCarData, deleteItem,updateCount } from "../../../server/shoppingCar";
 import { Dialog, Toast } from "vant";
 export default {
   data() {
@@ -66,6 +97,10 @@ export default {
       checked: false,
       total: 0,
       carImg: "/img/common/nocar.png",
+      changeCount: false,
+      count: 0,
+      goodsIndex: 0,
+      carId:0
     };
   },
   methods: {
@@ -116,24 +151,45 @@ export default {
       const res = await deleteItem(id);
       return res;
     },
+    showChangeCount(item, index) {
+      this.goodsIndex = index;
+      this.changeCount = true;
+      this.count = item.count;
+      this.carId=item.id
+    },
+    async submitCount() {
+      let index =this.goodsIndex
+      this.cardata[index].count=this.count;
+      let carId=this.carId;
+      let count =this.count;
+      let token =localStorage.getItem("token")
+      const res =await updateCount(token,carId,count);
+    },
+    add() {
+      this.count++;
+    },
+    less() {
+      if (this.count <= 1) return;
+      this.count--;
+    },
     submitOrder() {
       let order = {
         total: this.total / 100,
-        goods_count:0,
+        goods_count: 0,
         goods: [],
       };
       this.cardata.forEach((item) => {
-        order.goods_count+=item.count
+        order.goods_count += item.count;
         if (item.ischecked) {
           order.goods.push(item);
         }
       });
       if (order.total == 0) {
         Toast.fail("亲，请勾选商品");
-      }else{
-        this.$store.commit("changeOrderData",order);
-        sessionStorage.setItem("orderData",JSON.stringify(order))
-        this.$router.push({name:"fillOrder"})
+      } else {
+        this.$store.commit("changeOrderData", order);
+        sessionStorage.setItem("orderData", JSON.stringify(order));
+        this.$router.push({ name: "fillOrder" });
       }
     },
   },
@@ -209,8 +265,17 @@ export default {
           margin-left: 0.1725rem;
         }
       }
-      .delete-button {
+      .card-right {
+        display: flex;
+        flex-wrap: wrap;
+        width: 5.625rem;
         height: 100%;
+        align-items: center;
+        .delete-button {
+          display: block;
+          width: 100%;
+          height: 45%;
+        }
       }
     }
   }
@@ -281,6 +346,44 @@ export default {
         color: #ffffff;
         font-weight: 550;
         border-radius: 30% / 100% 100% 100% 100%;
+      }
+    }
+  }
+  .changeCount-box {
+    div {
+      display: flex;
+      justify-content: center;
+      .showChangeCount-ul {
+        width: 35%;
+        display: flex;
+        padding: 0.9375rem 0;
+        li.jia {
+          border-right: none;
+          cursor: pointer;
+          color: #999;
+          width: 30px;
+          padding: 0;
+          background-color: #f5f5f5;
+        }
+        li.jian {
+          border-right: 1px solid #ddd;
+        }
+        li {
+          float: left;
+          text-align: center;
+          line-height: 30px;
+          height: 30px;
+          border: 1px solid #ddd;
+          font-size: 20px;
+          padding: 0 8px;
+          input {
+            width: 30px;
+            font-size: 16px;
+            border: none;
+            line-height: 24px;
+            text-align: center;
+          }
+        }
       }
     }
   }

@@ -26,7 +26,6 @@ export default {
   },
   methods: {
     onChange(index) {
-    //   console.log(index);
     },
     async getNavs() {
       const res = await getNav();

@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="header">
-      <vue-header name="arrow-left" title="登录" :handleClick="handleClick">
+      <vue-header name="arrow-left" title="注册" :handleClick="handleClick">
         <div class="caidan">
           <span
             class="iconfont icon-caidan"

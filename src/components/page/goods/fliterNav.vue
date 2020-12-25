@@ -95,6 +95,7 @@ export default {
     width: 33.33%;
     height: 2.8225rem;
     line-height: 2.8225rem;
+    background-color: #fff;
     a {
       display: inline-block;
       width: 100%;

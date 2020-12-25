@@ -42,3 +42,15 @@ export async function deleteItem(id) {
     } = await axios.post(`/shoppingCar/deleteItem`,{id:id})
     return res
 }
+
+// 更新用户购物车的某个商品的数量
+export async function updateCount(token,carId,count) {
+    const {
+        data: res
+    } = await axios.post(`/shoppingCar/updateCount`,{
+        token,
+        carId,
+        count
+    })
+    return res
+}

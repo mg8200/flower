@@ -123,7 +123,7 @@
           @click="goGoodDetail(item.id)"
         >
           <div class="left">
-            <img :src="item.src" alt="" />
+            <img :src="serverIndex+item.src" alt="" />
           </div>
           <div class="right">
             <div class="right-top">
@@ -211,7 +211,7 @@
       <div
         class="button"
         v-if="orderDetailData.status == 6"
-        @click="addShoppingCar"
+        @click="anotherList"
       >
         再来一单
       </div>
@@ -238,6 +238,8 @@ import {
 } from "../../../../server/order";
 import { getAddressById } from "../../../../server/user";
 import { Dialog, Toast } from "vant";
+import { joinCar } from "../../../../server/shoppingCar";
+import { serverIndex } from "../../../../server/serverIndex"
 export default {
   components: {
     vueHeader,
@@ -252,6 +254,8 @@ export default {
           goods: [],
         },
       },
+      isAddSuccess: Boolean,
+      serverIndex:""
     };
   },
   methods: {
@@ -329,7 +333,7 @@ export default {
       let self = this;
       let token = localStorage.getItem("token");
       let id = this.orderDetailData.id;
-      const res =await cancelRefund(id, token);
+      const res = await cancelRefund(id, token);
       if (res.code == 200) {
         Toast({
           message: "取消成功",
@@ -341,13 +345,14 @@ export default {
         });
       }
     },
-    addShoppingCar() {
+    anotherList() {
       let goods = JSON.stringify(this.orderDetailData.goods_details);
       this.$store.commit("changeOrderData", goods);
       sessionStorage.setItem("orderData", goods);
       this.$router.push({ name: "fillOrder" });
     },
     async sureGoods() {
+      let time = new Date().toLocaleString();
       Dialog.confirm({
         title: "确定收货",
         confirmButtonText: "确定",
@@ -359,7 +364,7 @@ export default {
         this.orderDetailData.goods_details.goods.forEach(async (item) => {
           let res = await addSales(item.id, token, item.count);
         });
-        const res = await sureGoods(id, token);
+        const res = await sureGoods(id, token,time);
         if (res.code == 200) {
           let self = this;
           Toast({
@@ -380,10 +385,35 @@ export default {
     goGoodDetail(id) {
       this.$router.push({ name: "goodsDetails", params: { good_id: id } });
     },
+    // 再来一单
+    addShoppingCar() {
+      let arr = this.orderDetailData.goods_details.goods;
+      let token = localStorage.getItem("token");
+      arr.forEach(async (item) => {
+        const res = await joinCar(token, item.goods_id, item.price, item.count);
+        if (res.code == 200) {
+          this.isAddSuccess = true;
+        } else if (res.code == 400) {
+          this.isAddSuccess = false;
+        }
+      });
+      if (this.isAddSuccess) {
+        let self = this;
+        Toast({
+          message: "添加购物成功",
+          position: "center",
+          type: "success",
+          onClose() {
+            self.$router.push({ name: "shoppingCar" });
+          },
+        });
+      }
+    },
   },
   mounted() {
     this.getNavData();
     this.getOrderDetailData();
+    this.serverIndex=serverIndex
   },
 };
 </script>
@@ -510,7 +540,7 @@ export default {
         .right {
           width: 75%;
           box-sizing: border-box;
-          padding-left:0.5rem;
+          padding-left: 0.5rem;
           display: flex;
           flex-wrap: wrap;
           align-items: baseline;
@@ -569,6 +599,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    font-size: 0.75rem;
     .button {
       height: 1.875rem;
       width: 5rem;

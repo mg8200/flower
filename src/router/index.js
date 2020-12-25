@@ -4,8 +4,8 @@ import VueRouter from 'vue-router'
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location, onResolve, onReject) {
-	if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
-	return originalPush.call(this, location).catch(err => err)
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
 }
 Vue.use(VueRouter)
 
@@ -31,7 +31,7 @@ const routes = [{
     }]
   },
   {
-    path: '/information/details/informationDetail/:infoId',
+    path: '/information/informationDetail/:infoId',
     name: 'informationDetail',
     component: () => import("../components/page/information/informationDetail.vue"),
   },
@@ -114,7 +114,7 @@ const routes = [{
     name: 'comments',
     component: () => import("../components/page/order/comments.vue"),
   },
-  
+
   {
     path: '/goodsCommentsDetails/:id',
     name: 'goodsCommentsDetails',
@@ -127,22 +127,44 @@ const routes = [{
     component: () => import("../components/page/config/config.vue"),
   },
   {
-    path: "/user/changePassword",
+    path: "/config/changePassword",
     name: "changePassword",
-    component: () => import("../components/page/user/changePassword.vue"),
+    component: () => import("../components/page/config/changePassword.vue"),
   },
+  {
+    path: '/order/successfullySubmitOrder',
+    name: 'successfullySubmitOrder',
+    component: () => import("../components/page/order/successfullySubmitOrder.vue"),
+  },
+
+  {
+    path: "/config/setSuperPassword",
+    name: "setSuperPassword",
+    component: () => import("../components/page/config/setSuperPassword.vue"),
+  },
+
 
 ]
 
 const router = new VueRouter({
   //  mode: 'history',
   // base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior(to, from, saveTop) {
+    if (saveTop) {
+      return saveTop;
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  }
 })
 
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("token");
-  if (to.name == "shippingAddress" || to.name == "addAddress" || to.name == "modifyAddress" || to.name == "fillOrder"|| to.name =="myOrder"|| to.name =="myOrderDetail"|| to.name =="comments"|| to.name =="config"|| to.name =="changePassword" ) {
+  if (to.name == "shippingAddress" || to.name == "addAddress" || to.name == "modifyAddress" || to.name == "fillOrder" || to.name == "myOrder" || to.name == "myOrderDetail" || to.name == "comments" || to.name == "config" || to.name == "changePassword") {
     if (token) {
       next()
     } else {
@@ -153,8 +175,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-
-
 })
 
 export default router

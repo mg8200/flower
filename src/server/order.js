@@ -35,15 +35,27 @@ export async function getOrderDetail(id) {
 }
 
 // 确定收货
-export async function sureGoods(id, token) {
+export async function sureGoods(id, token,time) {
     const {
         data: res
     } = await axios.post(`/order/sureGoods`, {
-        token: token,
-        id: id
+        token,
+        id,
+        time
     })
     return res
 }
+
+// 删除订单
+export async function deleteOrder(id) {
+    const {
+        data: res
+    } = await axios.post(`/order/deleteOrder`, {
+        id
+    })
+    return res
+}
+
 
 // 评论订单
 export async function submitComments(id, comments_content, token) {

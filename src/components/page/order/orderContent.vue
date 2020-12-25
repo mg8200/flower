@@ -240,7 +240,12 @@ export default {
             this.defaultAddress.push(item);
           }
         });
+        console.log(this.defaultAddress[0]);
         sessionStorage.setItem("addressId", this.defaultAddress[0].id);
+        sessionStorage.setItem(
+          "address_detail",
+          JSON.stringify(this.defaultAddress[0])
+        );
       }
     },
     showOtherAddressBox() {
@@ -252,6 +257,10 @@ export default {
     changeAddress(item) {
       this.defaultAddress[0] = item;
       sessionStorage.setItem("addressId", this.defaultAddress[0].id);
+      sessionStorage.setItem(
+        "address_detail",
+        JSON.stringify(this.defaultAddress[0])
+      );
       this.showOtherAddress = false;
     },
     goAddress() {

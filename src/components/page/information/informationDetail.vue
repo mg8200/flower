@@ -11,6 +11,7 @@
       <img :src="data.title_img" alt="" />
       <div class="text" v-html="data.details"></div>
     </div>
+    <div class="margin-bottom"></div>
   </div>
 </template>
 
@@ -46,6 +47,7 @@ export default {
 <style lang="scss" scoped>
 .informationDetail {
   background-color: #fff;
+  height: 100%;
   .content {
     margin-top: 3.125rem;
     font-size: 0.9375rem;
@@ -71,6 +73,9 @@ export default {
         text-indent: 2em;
       }
     }
+  }
+  .margin-bottom{
+    margin-bottom: 3.125rem;
   }
 }
 </style>

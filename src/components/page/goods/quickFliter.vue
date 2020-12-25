@@ -9,7 +9,10 @@
         @click="getComprehensive($event, index)"
         ref="fliterItem"
       >
-        <a>{{ item }}</a>
+        <a>
+          {{ item }}
+          <i class="iconfont icon-paixu-" v-show="index > 1"></i>
+        </a>
       </div>
     </div>
     <vue-renderGoodeslist
@@ -55,8 +58,7 @@ export default {
     async getDetailsData() {
       this.detailsData = await getsuitable_sceneData(this.$route.params.sid);
       this.detailsData.forEach((item, index) => {
-        this.detailsData[index].src =
-          serverIndex + this.detailsData[index].src;
+        this.detailsData[index].src = serverIndex + this.detailsData[index].src;
       });
       this.baseDataTailsData = this.detailsData;
     },
@@ -92,6 +94,7 @@ export default {
     border-bottom: 1px solid #fff;
     margin-top: 3.125rem;
     height: 2.8225rem;
+    background-color: #fff;
   }
   .fliter-item {
     width: 33.33%;

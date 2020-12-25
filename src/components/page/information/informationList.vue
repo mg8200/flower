@@ -2,9 +2,7 @@
   <div class="information-list">
     <div class="title">
       <h3>
-        <i></i>
         <span>{{ $route.params.name }}</span>
-        <i></i>
       </h3>
     </div>
     <ul class="list">
@@ -84,18 +82,12 @@ export default {
     padding: 0.3125rem 0;
     h3 {
       height: 30px;
-      i {
-        display: block;
-        float: left;
-        width: 30px;
-        height: 1px;
-        background: #cccccc;
-        margin: 15px 30px 0 30px;
-        line-height: 100%;
-      }
+      text-align: center;
       span {
         display: block;
         float: left;
+        width: 100%;
+        text-align: center;
         font-size: 28px;
         color: #d7000f;
         font-weight: bold;

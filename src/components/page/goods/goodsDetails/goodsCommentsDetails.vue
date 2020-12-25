@@ -61,7 +61,6 @@ export default {
       this.evaluateData.forEach((item) => {
         item.userImg = "https://www.dinghuale.com/public/images/morenTou.png";
       });
-      console.log(this.evaluateData);
     },
   },
   mounted() {
